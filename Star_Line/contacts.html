@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系人 - 星航Box</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <div class="bg-white shadow-sm px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-arrow-left text-lg"></i>
+                </button>
+                <h1 class="text-xl font-bold text-gray-900">联系人</h1>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-plus text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索栏 -->
+    <div class="px-4 py-4">
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <input type="text" 
+                   class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                   placeholder="搜索联系人...">
+        </div>
+    </div>
+
+    <!-- 快速筛选 -->
+    <div class="px-4 pb-4">
+        <div class="flex space-x-2 overflow-x-auto">
+            <button class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm whitespace-nowrap">全部</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">专家</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">部门</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">外部</button>
+        </div>
+    </div>
+
+    <!-- 联系人列表 -->
+    <div class="px-4 space-y-4">
+        <!-- 专家支持 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">专家支持</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face" 
+                             class="w-12 h-12 rounded-full object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-gray-900">李经理</h4>
+                                <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">在线</span>
+                            </div>
+                            <p class="text-sm text-gray-600">业务专家 · 风险管理</p>
+                            <div class="flex items-center mt-1 text-xs text-gray-500">
+                                <i class="fas fa-phone mr-1"></i>
+                                <span>138****1234</span>
+                                <span class="mx-2">·</span>
+                                <i class="fas fa-envelope mr-1"></i>
+                                <span>li.manager@company.com</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-phone text-sm"></i>
+                            </button>
+                            <button class="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
+                                <i class="fas fa-comment text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" 
+                             class="w-12 h-12 rounded-full object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-gray-900">王总监</h4>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-600 text-xs rounded-full">忙碌</span>
+                            </div>
+                            <p class="text-sm text-gray-600">技术专家 · 系统架构</p>
+                            <div class="flex items-center mt-1 text-xs text-gray-500">
+                                <i class="fas fa-phone mr-1"></i>
+                                <span>139****5678</span>
+                                <span class="mx-2">·</span>
+                                <i class="fas fa-envelope mr-1"></i>
+                                <span>wang.director@company.com</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-phone text-sm"></i>
+                            </button>
+                            <button class="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
+                                <i class="fas fa-comment text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 部门联系人 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">部门联系人</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-users text-blue-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900">人力资源部</h4>
+                            <p class="text-sm text-gray-600">员工管理、培训、福利</p>
+                            <div class="flex items-center mt-1 text-xs text-gray-500">
+                                <i class="fas fa-phone mr-1"></i>
+                                <span>400-123-4567</span>
+                                <span class="mx-2">·</span>
+                                <i class="fas fa-envelope mr-1"></i>
+                                <span>hr@company.com</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-phone text-sm"></i>
+                            </button>
+                            <button class="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
+                                <i class="fas fa-comment text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cogs text-green-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900">技术部</h4>
+                            <p class="text-sm text-gray-600">系统维护、技术支持</p>
+                            <div class="flex items-center mt-1 text-xs text-gray-500">
+                                <i class="fas fa-phone mr-1"></i>
+                                <span>400-123-4568</span>
+                                <span class="mx-2">·</span>
+                                <i class="fas fa-envelope mr-1"></i>
+                                <span>tech@company.com</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-phone text-sm"></i>
+                            </button>
+                            <button class="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
+                                <i class="fas fa-comment text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-purple-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900">法务部</h4>
+                            <p class="text-sm text-gray-600">合同审核、合规管理</p>
+                            <div class="flex items-center mt-1 text-xs text-gray-500">
+                                <i class="fas fa-phone mr-1"></i>
+                                <span>400-123-4569</span>
+                                <span class="mx-2">·</span>
+                                <i class="fas fa-envelope mr-1"></i>
+                                <span>legal@company.com</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-phone text-sm"></i>
+                            </button>
+                            <button class="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
+                                <i class="fas fa-comment text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 外部联系人 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">外部联系人</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face" 
+                             class="w-12 h-12 rounded-full object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-gray-900">张律师</h4>
+                                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">外部</span>
+                            </div>
+                            <p class="text-sm text-gray-600">法律顾问 · 合同审查</p>
+                            <div class="flex items-center mt-1 text-xs text-gray-500">
+                                <i class="fas fa-phone mr-1"></i>
+                                <span>138****9999</span>
+                                <span class="mx-2">·</span>
+                                <i class="fas fa-building mr-1"></i>
+                                <span>XX律师事务所</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-phone text-sm"></i>
+                            </button>
+                            <button class="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
+                                <i class="fas fa-comment text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+        <div class="flex space-x-3">
+            <button class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                <i class="fas fa-plus mr-2"></i>添加联系人
+            </button>
+            <button class="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors">
+                <i class="fas fa-download"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

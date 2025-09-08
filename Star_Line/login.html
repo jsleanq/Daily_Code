@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 星航Box</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-sm mx-4">
+        <!-- Logo区域 -->
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 mx-auto mb-4 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-rocket text-3xl text-blue-600"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-2">星航Box</h1>
+            <p class="text-white/80 text-sm">员工工具箱</p>
+        </div>
+
+        <!-- 登录表单 -->
+        <div class="glass-effect rounded-3xl p-8 shadow-2xl">
+            <h2 class="text-2xl font-bold text-white mb-6 text-center">欢迎回来</h2>
+            
+            <form class="space-y-6">
+                <!-- 员工工号输入 -->
+                <div>
+                    <label class="block text-white/90 text-sm font-medium mb-2">员工工号</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-id-card text-white/60"></i>
+                        </div>
+                        <input type="text" 
+                               class="w-full pl-10 pr-4 py-3 bg-white/20 border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent"
+                               placeholder="请输入员工工号">
+                    </div>
+                </div>
+
+                <!-- 密码输入 -->
+                <div>
+                    <label class="block text-white/90 text-sm font-medium mb-2">密码</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-white/60"></i>
+                        </div>
+                        <input type="password" 
+                               class="w-full pl-10 pr-12 py-3 bg-white/20 border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent"
+                               placeholder="请输入密码">
+                        <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i class="fas fa-eye text-white/60"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 记住密码 -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-4 h-4 text-blue-600 bg-white/20 border-white/30 rounded focus:ring-blue-500">
+                        <span class="ml-2 text-white/90 text-sm">记住密码</span>
+                    </label>
+                    <a href="#" class="text-white/80 text-sm hover:text-white">忘记密码？</a>
+                </div>
+
+                <!-- 登录按钮 -->
+                <button type="button" 
+                        onclick="loginSuccess()"
+                        class="w-full bg-white text-blue-600 py-3 rounded-xl font-semibold hover:bg-white/90 transition-colors duration-200 shadow-lg">
+                    登录
+                </button>
+            </form>
+
+            <!-- 其他登录方式 -->
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-white/30"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-transparent text-white/60">或使用以下方式登录</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <button class="flex items-center justify-center px-4 py-3 bg-white/20 border border-white/30 rounded-xl text-white hover:bg-white/30 transition-colors">
+                        <i class="fab fa-weixin text-lg mr-2"></i>
+                        <span class="text-sm">微信</span>
+                    </button>
+                    <button class="flex items-center justify-center px-4 py-3 bg-white/20 border border-white/30 rounded-xl text-white hover:bg-white/30 transition-colors">
+                        <i class="fas fa-fingerprint text-lg mr-2"></i>
+                        <span class="text-sm">指纹</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部信息 -->
+        <div class="text-center mt-8">
+            <p class="text-white/60 text-xs">版本 1.0.0 | 星航科技</p>
+        </div>
+    </div>
+
+    <script>
+        function loginSuccess() {
+            // 通知父页面切换界面
+            if (window.parent && window.parent.loginSuccess) {
+                window.parent.loginSuccess();
+            }
+        }
+    </script>
+</body>
+</html>

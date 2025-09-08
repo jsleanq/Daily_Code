@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星航Box - 员工工具箱</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --primary-dark: #2563eb;
+            --dark-bg: #121826;
+            --dark-card: #1a243a;
+            --dark-border: #2a3448;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0b0b2d, #1a1a40);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .iphone-frame {
+            width: 390px;
+            height: 844px;
+            background-color: #000;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--dark-border);
+        }
+        
+        .screen {
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg);
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(80, 80, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(120, 120, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(60, 60, 200, 0.1) 0%, transparent 40%);
+            z-index: 0;
+        }
+        
+        .status-bar {
+            height: 44px;
+            background-color: rgba(26, 36, 58, 0.9);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            border-bottom: 1px solid var(--dark-border);
+        }
+        
+        .app-content {
+            height: calc(100% - 44px - 80px);
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab-bar {
+            height: 80px;
+            background-color: rgba(26, 36, 58, 0.9);
+            border-top: 1px solid var(--dark-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 2;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--text-secondary);
+            padding: 8px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .tab-item.active {
+            color: var(--primary);
+        }
+        
+        .tab-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .tab-item.active i {
+            color: var(--primary);
+        }
+        
+        .page {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .search-container {
+            padding: 20px 16px 16px;
+            background-color: var(--dark-card);
+            border-radius: 0 0 24px 24px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .search-bar {
+            background-color: rgba(42, 52, 72, 0.6);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--dark-border);
+        }
+        
+        .search-bar i {
+            color: var(--text-secondary);
+            margin-right: 12px;
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+        
+        .search-bar input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        /* 优化模块卡片样式 */
+        .module-card {
+            background-color: var(--dark-card);
+            border-radius: 16px;
+            margin: 12px 16px;
+            overflow: hidden;
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .module-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .module-header:hover {
+            background-color: rgba(42, 52, 72, 0.2);
+        }
+        
+        .module-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .module-title i {
+            margin-right: 10px;
+            color: var(--primary);
+            font-size: 18px;
+        }
+        
+        .module-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 0 16px 16px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .module-content.expanded {
+            max-height: 180px; /* 减少高度使下拉更窄 */
+        }
+        
+        .sub-option {
+            background-color: rgba(42, 52, 72, 0.6);
+            border-radius: 10px;
+            padding: 12px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid var(--dark-border);
+        }
+        
+        .sub-option:hover {
+            transform: translateY(-2px);
+            background-color: rgba(59, 130, 246, 0.15);
+        }
+        
+        .sub-option i {
+            font-size: 20px;
+            margin-bottom: 6px;
+            color: var(--primary);
+        }
+        
+        .sub-option span {
+            font-size: 13px;
+            font-weight: 500;
+            display: block;
+        }
+
+        .card {
+            background: rgba(30, 30, 70, 0.5);
+            border-radius: 16px;
+            padding: 16px;
+            margin: 10px 15px;
+            border: 1px solid rgba(100, 100, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin: 20px 16px 12px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .content-card {
+            background-color: var(--dark-card);
+            border-radius: 16px;
+            padding: 18px;
+            margin: 12px 16px;
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .case-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--dark-border);
+            cursor: pointer;
+        }
+        
+        .case-item:last-child {
+            border-bottom: none;
+        }
+        
+        .case-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+        
+        .case-title i {
+            margin-right: 8px;
+            color: var(--primary);
+            font-size: 14px;
+        }
+        
+        .case-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        
+        .case-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .contact-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+        
+        .contact-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .contact-details {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: rgba(42, 52, 72, 0.6);
+            border: 1px solid var(--dark-border);
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .chart-container {
+            height: 200px;
+            background: linear-gradient(180deg, rgba(42, 52, 72, 0.6) 0%, rgba(26, 36, 58, 0.8) 100%);
+            border-radius: 12px;
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--dark-border);
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 14px;
+        }
+        
+        .product-card {
+            background: linear-gradient(180deg, rgba(42, 52, 72, 0.6) 0%, rgba(26, 36, 58, 0.8) 100%);
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid var(--dark-border);
+        }
+        
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--primary);
+            font-size: 15px;
+        }
+        
+        .product-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        
+        .calc-tool {
+            background: linear-gradient(180deg, rgba(42, 52, 72, 0.6) 0%, rgba(26, 36, 58, 0.8) 100%);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 14px;
+            border: 1px solid var(--dark-border);
+        }
+        
+        .calc-title {
+            font-weight: 600;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        
+        .calc-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: rgba(18, 24, 38, 0.6);
+            border: 1px solid var(--dark-border);
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        
+        .calc-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .notification-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--dark-border);
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+        
+        .notification-title i {
+            margin-right: 8px;
+            color: var(--primary);
+            font-size: 14px;
+        }
+        
+        .notification-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 登录页面样式优化 */
+        .login-card {
+            background-color: #1a243a;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid #2a3448;
+        }
+        
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(to right, #3b82f6, #6366f1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* 欢迎栏样式优化 */
+        .welcome-banner {
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(139, 92, 246, 0.7));
+            border-radius: 18px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .welcome-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 50%;
+        }
+        
+        /* 滚动条样式 */
+        .app-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .app-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .app-content::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.3);
+            border-radius: 3px;
+        }
+        
+        .app-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.5);
+        }
+
+        .space-tab {
+            background: rgba(30, 30, 70, 0.6);
+            border: 1px solid rgba(100, 100, 255, 0.2);
+            color: #8e8ecc;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-right: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .space-tab.active {
+            background: linear-gradient(90deg, #5e9bff, #a374ff);
+            color: white;
+            box-shadow: 0 4px 10px rgba(94, 155, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- iPhone模拟框架 -->
+    <div class="iphone-frame">
+        <div class="screen">
+            <!-- iOS状态栏 -->
+            <div class="status-bar">
+                <div>15:30</div>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi" style="margin-left: 5px;"></i>
+                    <i class="fas fa-battery-full" style="margin-left: 5px;"></i>
+                </div>
+            </div>
+            
+            <!-- 应用内容区域 -->
+            <div class="app-content">
+                <!-- 登录页面 -->
+                <div id="login-page" class="page active">
+                    <div class="min-h-full flex flex-col justify-center p-6">
+                        <div class="login-card">
+                            <!-- Logo -->
+                            <div class="flex justify-center mb-6">
+                                <div class="logo-container">
+                                    <i class="fas fa-rocket text-white text-3xl"></i>
+                                </div>
+                            </div>
+                            
+                            <h1 class="text-2xl font-bold text-center mb-2 text-[#e2e8f0]">星航Box</h1>
+                            <p class="text-[#94a3b8] text-center mb-6">公司客户经理标准化工具箱</p>
+                            
+                            <!-- 登录表单 -->
+                            <form>
+                                <div class="mb-4">
+                                    <label for="employee-id" class="block text-sm font-medium text-[#94a3b8] mb-2">员工工号</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-user text-[#94a3b8]"></i>
+                                        </div>
+                                        <input type="text" id="employee-id" class="pl-10 block w-full rounded-lg border border-[#2a3448] bg-[#121826] px-4 py-3 text-[#e2e8f0] focus:ring-blue-500 focus:border-blue-500" placeholder="请输入员工工号">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-5">
+                                    <label for="password" class="block text-sm font-medium text-[#94a3b8] mb-2">密码</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-lock text-[#94a3b8]"></i>
+                                        </div>
+                                        <input type="password" id="password" class="pl-10 block w-full rounded-lg border border-[#2a3448] bg-[#121826] px-4 py-3 text-[#e2e8f0] focus:ring-blue-500 focus:border-blue-500" placeholder="请输入密码">
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between mb-5">
+                                    <div class="flex items-center">
+                                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-[#2a3448] rounded bg-[#121826]">
+                                        <label for="remember-me" class="ml-2 block text-sm text-[#94a3b8]">记住我</label>
+                                    </div>
+                                    
+                                    <div class="text-sm">
+                                        <a href="#" class="font-medium text-blue-400 hover:text-blue-300">忘记密码?</a>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" onclick="showPage('home-page')" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 font-medium transition-colors">
+                                    登陆星航系统
+                                </button>
+                            </form>
+                            
+                            <div class="mt-6 text-center">
+                                <p class="text-sm text-[#94a3b8]">
+                                    首次使用? 
+                                    <a href="#" class="font-medium text-blue-400 hover:text-blue-300">请联系管理员激活账户</a>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-8 text-xs text-[#94a3b8]">
+                            <p>© 2023 星航Box - 企业内部分享平台</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 首页 -->
+                <div id="home-page" class="page">
+                    <div class="p-5">
+                        <!-- 欢迎栏 -->
+                        <div class="welcome-banner">
+                            <h1 class="text-xl font-bold mb-2 relative z-10">欢迎登上星航Box</h1>
+                            <p class="text-blue-100 relative z-10 text-sm">公司客户经理标准化工具箱</p>
+                            <div class="absolute top-4 right-4 text-2xl">🚀</div>
+                        </div>
+                    </div>
+                    <!-- 工具箱模块 -->
+                    <div class="module-card">
+                        <div class="module-header" onclick="toggleModule('toolbox')">
+                            <div class="module-title">
+                                <i class="fas fa-toolbox"></i>
+                                启航工具箱
+                            </div>
+                            <i class="fas fa-chevron-down text-sm" id="toolbox-chevron"></i>
+                        </div>
+                        <div class="module-content" id="toolbox-content">
+                            <div class="sub-option" onclick="showPage('courses-page')">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>专业素养工具箱</span>
+                            </div>
+                            <div class="sub-option" onclick="showPage('business-tools-page')">
+                                <i class="fas fa-chart-line"></i>
+                                <span>授信调查工具箱</span>
+                            </div>
+                            <div class="sub-option" onclick="showPage('product-tools-page')">
+                                <i class="fas fa-cube"></i>
+                                <span>公司产品工具箱</span>
+                            </div>
+                            <div class="sub-option" onclick="showPage('assessment-tools-page')">
+                                <i class="fas fa-calculator"></i>
+                                <span>考核及定价工具箱</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- 业务案例模块 -->
+                    <div class="module-card">
+                        <div class="module-header" onclick="toggleModule('business-cases')">
+                            <div class="module-title">
+                                <i class="fas fa-folder-open"></i>
+                                业务样板间
+                            </div>
+                            <i class="fas fa-chevron-down text-sm" id="business-cases-chevron"></i>
+                        </div>
+                        <div class="module-content" id="business-cases-content">
+                            <div class="sub-option" onclick="showPage('cases-page')">
+                                <i class="fas fa-briefcase"></i>
+                                <span>近期业务</span>
+                            </div>
+                            <div class="sub-option" onclick="showPage('policy-guide-page')">
+                                <i class="fas fa-file-alt"></i>
+                                <span>政策导向</span>
+                            </div>
+                            <div class="sub-option">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>更多案例</span>
+                            </div>
+                            <div class="sub-option">
+                                <i class="fas fa-upload"></i>
+                                <span>案例上传</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 联系人模块 -->
+                    <div class="module-card">
+                        <div class="module-header" onclick="toggleModule('contacts')">
+                            <div class="module-title">
+                                <i class="fas fa-address-book"></i>
+                                智库连线
+                            </div>
+                            <i class="fas fa-chevron-down text-sm" id="contacts-chevron"></i>
+                        </div>
+                        <div class="module-content" id="contacts-content">
+                            <div class="sub-option" onclick="showPage('contacts-page')">
+                                <i class="fas fa-users"></i>
+                                <span>全部联系人</span>
+                            </div>
+                            <div class="sub-option">
+                                <i class="fas fa-user-tie"></i>
+                                <span>交易银行部</span>
+                            </div>
+                            <div class="sub-option">
+                                <i class="fas fa-salesforce"></i>
+                                <span>公司业务部</span>
+                            </div>
+                            <div class="sub-option">
+                                <i class="fas fa-headset"></i>
+                                <span>技术支持部</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 避坑指南模块 -->
+                    <div class="module-card">
+                        <div class="module-header" onclick="toggleModule('pitfalls-guide')">
+                            <div class="module-title">
+                                <i class="fas fa-shield-alt"></i>
+                                避坑指南
+                            </div>
+                            <i class="fas fa-chevron-down text-sm" id="pitfalls-guide-chevron"></i>
+                        </div>
+                        <div class="module-content" id="pitfalls-guide-content">
+                            <div class="sub-option" onclick="showPage('industry-risks-page')">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>行业风险</span>
+                            </div>
+                            <div class="sub-option" onclick="showPage('risk-cases-page')">
+                                <i class="fas fa-file-contract"></i>
+                                <span>风险案例</span>
+                            </div>
+                            <div class="sub-option">
+                                <i class="fas fa-bell"></i>
+                                <span>风险预警</span>
+                            </div>
+                            <div class="sub-option">
+                                <i class="fas fa-hand-holding-heart"></i>
+                                <span>防范措施</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- 热门案例栏目 -->
+                    <div class="section-title">
+                        <i class="fas fa-fire"></i>
+                        热门案例
+                    </div>
+                    <div class="content-card">
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-star"></i>
+                                案例一：大客户签约流程
+                            </div>
+                            <div class="case-desc">签约流程优化，提升客户满意度</div>
+                        </div>
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-star"></i>
+                                案例二：产品升级成功案例
+                            </div>
+                            <div class="case-desc">产品升级带来的业务增长</div>
+                        </div>
+                    </div>
+                    <!-- 避坑指南栏目 -->
+                    <div class="section-title">
+                        <i class="fas fa-exclamation-circle"></i>
+                        避坑指南
+                    </div>
+                    <div class="content-card">
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-shield-alt"></i>
+                                行业常见风险
+                            </div>
+                            <div class="case-desc">规避合同陷阱，防范业务风险</div>
+                        </div>
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-shield-alt"></i>
+                                客户沟通误区
+                            </div>
+                            <div class="case-desc">沟通技巧提升，减少误解</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程页面 -->
+                <div id="courses-page" class="page">
+                    <div class="p-4">
+                        <div class="flex items-center mb-6">
+                            <i class="fas fa-arrow-left text-[#3b82f6] mr-4 cursor-pointer" onclick="showPage('home-page')"></i>
+                            <h1 class="text-xl font-bold">专业素养工具箱</h1>
+                        </div>
+                  
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="搜索课程...">
+                        </div>
+                        
+                        <div class="section-title">推荐课程</div>
+                        
+                        <div class="card">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-graduation-cap text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-white">新员工入职培训</h3>
+                                    <p class="text-xs text-blue-300">8个模块 · 预计4小时</p>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-blue-500" style="width: 45%"></div>
+                            </div>
+                            <p class="text-xs text-blue-300 mt-2">已完成45%</p>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-chart-bar text-green-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-white">业务数据分析入门</h3>
+                                    <p class="text-xs text-blue-300">5个模块 · 预计3小时</p>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 20%"></div>
+                            </div>
+                            <p class="text-xs text-blue-300 mt-2">已完成20%</p>
+                        </div>
+                        
+                        <div class="section-title">所有课程</div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-medium text-white">产品知识库</h3>
+                                <span class="text-xs text-blue-300">12课程</span>
+                            </div>
+                            <p class="text-sm text-blue-300 mb-3">全面了解公司产品线及功能特性</p>
+                            <div class="flex">
+                                <span class="space-badge bg-blue-500/20 text-blue-400">产品</span>
+                                <span class="space-badge bg-green-500/20 text-green-400 ml-2">销售</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-medium text-white">合规与风控</h3>
+                                <span class="text-xs text-blue-300">9课程</span>
+                            </div>
+                            <p class="text-sm text-blue-300 mb-3">企业合规要求及风险控制指南</p>
+                            <div class="flex">
+                                <span class="space-badge bg-red-500/20 text-red-400">风控</span>
+                                <span class="space-badge bg-purple-500/20 text-purple-400 ml-2">合规</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-medium text-white">客户服务标准</h3>
+                                <span class="text-xs text-blue-300">6课程</span>
+                            </div>
+                            <p class="text-sm text-blue-300 mb-3">提升客户满意度与服务技巧</p>
+                            <div class="flex">
+                                <span class="space-badge bg-yellow-500/20 text-yellow-400">服务</span>
+                                <span class="space-badge bg-indigo-500/20 text-indigo-400 ml-2">标准</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 业务工具箱页面（测试图像） -->
+                <!-- <div id="business-tools-page" class="page">
+                    <div class="p-4">
+                        <div class="flex items-center mb-6">
+                            <i class="fas fa-arrow-left text-[#3b82f6] mr-4 cursor-pointer" onclick="showPage('home-page')"></i>
+                            <h1 class="text-xl font-bold">授信调查工具箱</h1>
+                        </div>
+                        <div class="section-title">
+                            <i class="fas fa-chart-bar"></i>
+                            业务数据统计
+                        </div>
+                        <div class="content-card">
+                            <div class="filter-bar">
+                                <div class="filter-btn active">本月</div>
+                                <div class="filter-btn">本季度</div>
+                                <div class="filter-btn">本年度</div>
+                                <div class="filter-btn">自定义</div>
+                            </div>
+                            <div class="chart-container" style="background: #232946;"> -->
+                                <!-- SVG测试图像 -->
+                                <!-- <svg width="320" height="120">
+                                    <rect x="10" y="80" width="40" height="30" fill="#3b82f6"/>
+                                    <rect x="60" y="60" width="40" height="50" fill="#60a5fa"/>
+                                    <rect x="110" y="40" width="40" height="70" fill="#2563eb"/>
+                                    <rect x="160" y="90" width="40" height="20" fill="#94a3b8"/>
+                                    <rect x="210" y="70" width="40" height="40" fill="#10b981"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="section-title">
+                            <i class="fas fa-project-diagram"></i>
+                            业务框架图
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="chart-container">
+                                <div class="text-[#94a3b8]">业务框架图展示区</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">
+                            <i class="fas fa-project-diagram"></i>
+                            业务框架图
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="chart-container">
+                                <div class="text-[#94a3b8]">业务框架图展示区</div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-table"></i>
+                            统计结果
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="text-left text-[#94a3b8] border-b border-[#2a3448]">
+                                            <th class="pb-2">业务类型</th>
+                                            <th class="pb-2">完成量</th>
+                                            <th class="pb-2">达成率</th>
+                                            <th class="pb-2">同比增长</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-[#2a3448]">
+                                            <td class="py-3">产品销售</td>
+                                            <td class="py-3">245</td>
+                                            <td class="py-3">85%</td>
+                                            <td class="py-3 text-[#10b981]">+12%</td>
+                                        </tr>
+                                        <tr class="border-b border-[#2a3448]">
+                                            <td class="py-3">客户咨询</td>
+                                            <td class="py-3">189</td>
+                                            <td class="py-3">92%</td>
+                                            <td class="py-3 text-[#10b981]">+8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3">售后服务</td>
+                                            <td class="py-3">156</td>
+                                            <td class="py-3">78%</td>
+                                            <td class="py-3 text-[#ef4444]">-5%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div id="business-tools-page" class="page"></div>
+                    <!-- 欢迎栏 -->
+                    <div class="p-4">
+                        <!-- 信贷政策模块 -->
+                        <div class="module-card">
+                            <div class="module-header" onclick="toggleModule('credit-policy')">
+                                <div class="module-title">
+                                    <i class="fas fa-file-contract"></i>
+                                    信贷政策
+                                </div>
+                                <i class="fas fa-chevron-down text-sm" id="credit-policy-chevron"></i>
+                            </div>
+                            <div class="module-content" id="credit-policy-content">
+                                <div class="filter-bar">
+                                    <div class="filter-btn active">全部</div>
+                                    <div class="filter-btn">企业信贷</div>
+                                    <div class="filter-btn">个人信贷</div>
+                                    <div class="filter-btn">行业政策</div>
+                                </div>
+                                
+                                <div class="policy-item">
+                                    <div class="policy-title">
+                                        <i class="fas fa-building"></i>
+                                        中小企业信贷支持政策
+                                    </div>
+                                    <div class="policy-desc">针对注册资本500万以下企业提供专项低息贷款,最高额度300万元。</div>
+                                    <div class="policy-date">更新日期: 2023-10-15</div>
+                                </div>
+                                
+                                <div class="policy-item">
+                                    <div class="policy-title">
+                                        <i class="fas fa-home"></i>
+                                        绿色能源行业信贷优惠
+                                    </div>
+                                    <div class="policy-desc">对太阳能、风能等绿色能源企业提供利率优惠,最长5年期限。</div>
+                                    <div class="policy-date">更新日期: 2023-10-10</div>
+                                </div>
+                                
+                                <div class="policy-item">
+                                    <div class="policy-title">
+                                        <i class="fas fa-chart-line"></i>
+                                        三季度信贷额度调整
+                                    </div>
+                                    <div class="policy-desc">根据央行指导,三季度企业信贷总额度上调15%，个人消费贷额度维持不变。</div>
+                                    <div class="policy-date">更新日期: 2023-09-28</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 分析框架图模块 -->
+                        <div class="module-card">
+                            <div class="module-header" onclick="toggleModule('framework')">
+                                <div class="module-title">
+                                    <i class="fas fa-sitemap"></i>
+                                    分析框架图
+                                </div>
+                                <i class="fas fa-chevron-down text-sm" id="framework-chevron"></i>
+                            </div>
+                            <div class="module-content" id="framework-content">
+                                <div class="content-card">
+                                    <h3 class="font-medium mb-4 text-center">信贷风险评估框架</h3>
+                                    
+                                    <div class="framework-container">
+                                        <div class="framework-box">
+                                            <i class="fas fa-user-tie"></i>
+                                            <span>客户信息</span>
+                                        </div>
+                                        <div class="framework-box">
+                                            <i class="fas fa-chart-line"></i>
+                                            <span>财务分析</span>
+                                        </div>
+                                        <div class="framework-box">
+                                            <i class="fas fa-industry"></i>
+                                            <span>行业分析</span>
+                                        </div>
+                                        <div class="framework-box">
+                                            <i class="fas fa-balance-scale"></i>
+                                            <span>综合评估</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-6">
+                                        <div class="policy-title mb-3">
+                                            <i class="fas fa-info-circle"></i>
+                                            框架说明
+                                        </div>
+                                        <div class="policy-desc">
+                                            本框架用于系统化评估信贷风险，包含四个核心维度：客户基本信息核实、财务状况分析、行业前景评估，最终形成综合风险评估报告。
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 申报流程及资料清单模块 -->
+                        <div class="module-card">
+                            <div class="module-header" onclick="toggleModule('application-process')">
+                                <div class="module-title">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    申报流程及资料清单
+                                </div>
+                                <i class="fas fa-chevron-down text-sm" id="application-process-chevron"></i>
+                            </div>
+                            <div class="module-content" id="application-process-content">
+                                <div class="content-card">
+                                    <h3 class="font-medium mb-4">企业信贷申请流程</h3>
+                                    
+                                    <ol class="process-list">
+                                        <li class="process-item">
+                                            <div class="process-title">资料准备与初审</div>
+                                            <div class="process-desc">收集企业基本资料，进行初步资格审核</div>
+                                        </li>
+                                        <li class="process-item">
+                                            <div class="process-title">财务分析</div>
+                                            <div class="process-desc">深入分析企业财务报表和经营数据</div>
+                                        </li>
+                                        <li class="process-item">
+                                            <div class="process-title">现场考察</div>
+                                            <div class="process-desc">实地考察企业经营状况和抵押物情况</div>
+                                        </li>
+                                        <li class="process-item">
+                                            <div class="process-title">风险评估</div>
+                                            <div class="process-desc">综合评估信贷风险，确定风险等级</div>
+                                        </li>
+                                        <li class="process-item">
+                                            <div class="process-title">审批决策</div>
+                                            <div class="process-desc">信贷委员会审议并做出最终决策</div>
+                                        </li>
+                                    </ol>
+                                </div>
+                                
+                                <div class="content-card">
+                                    <h3 class="font-medium mb-4">必备资料清单</h3>
+                                    
+                                    <ul class="docs-list">
+                                        <li class="docs-item">
+                                            <i class="fas fa-file-alt"></i>
+                                            <span>企业营业执照、组织机构代码证</span>
+                                        </li>
+                                        <li class="docs-item">
+                                            <i class="fas fa-file-invoice-dollar"></i>
+                                            <span>近三年财务报表及审计报告</span>
+                                        </li>
+                                        <li class="docs-item">
+                                            <i class="fas fa-file-contract"></i>
+                                            <span>近六个月银行对账单</span>
+                                        </li>
+                                        <li class="docs-item">
+                                            <i class="fas fa-building"></i>
+                                            <span>抵押物所有权证明文件</span>
+                                        </li>
+                                        <li class="docs-item">
+                                            <i class="fas fa-portrait"></i>
+                                            <span>法人代表身份证及签字样本</span>
+                                        </li>
+                                        <li class="docs-item">
+                                            <i class="fas fa-clipboard-check"></i>
+                                            <span>贷款用途说明及相关合同</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 查询页面（专业工具箱页面改为查询页面） -->
+                <div id="professional-tools-page" class="page" style="background: radial-gradient(ellipse at center, #232946 0%, #121826 100%);">
+                    <div class="flex flex-col items-center justify-center h-full">
+                        <div class="search-bar mb-8" style="width: 80%; box-shadow: 0 0 16px #3b82f6;">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="请输入查询内容..." style="background: transparent; color: #e2e8f0;">
+                        </div>
+                        <div class="w-full max-w-md mx-auto">
+                            <div class="section-title" style="color: #60a5fa;">
+                                <i class="fas fa-atom"></i>
+                                常用查询
+                            </div>
+                            <div class="flex flex-wrap gap-3 justify-center mt-4">
+                                <span class="filter-btn active sci-fi-btn">产品信息</span>
+                                <span class="filter-btn sci-fi-btn">业务流程</span>
+                                <span class="filter-btn sci-fi-btn">贷款试算</span>
+                                <span class="filter-btn sci-fi-btn">培训课程</span>
+                            </div>
+                            <div class="mt-8">
+                                <div class="content-card" style="background: rgba(59,130,246,0.08); border: 1px solid #3b82f6;">
+                                    <div class="case-item">
+                                        <div class="case-title"><i class="fas fa-robot"></i>产品信息查询</div>
+                                        <div class="case-desc">根据客户需求分类。</div>
+                                    </div>
+                                    <div class="case-item">
+                                        <div class="case-title"><i class="fas fa-users"></i>课程查询</div>
+                                        <div class="case-desc">基础课程、业务专精、拓宽视野。</div>
+                                    </div>
+                                    <div class="case-item">
+                                        <div class="case-title"><i class="fas fa-chart-bar"></i>业务流程查询</div>
+                                        <div class="case-desc">业务具体流程、联系人详情查询。</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品工具箱页面 -->
+                <div id="product-tools-page" class="page">
+                    <div class="p-4">
+                        <div class="flex items-center mb-6">
+                            <i class="fas fa-arrow-left text-[#3b82f6] mr-4 cursor-pointer" onclick="showPage('home-page')"></i>
+                            <h1 class="text-xl font-bold">公司产品工具箱</h1>
+                        </div>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-cubes"></i>
+                            产品系列
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="product-grid">
+                                <div class="product-card">
+                                    <div class="product-name">结算与现金管理</div>
+                                    <div class="product-desc">产品1,产品2,</div>
+                                </div>
+                                <div class="product-card">
+                                    <div class="product-name">投融资</div>
+                                    <div class="product-desc">产品1,产品2,</div>
+                                </div>
+                                <div class="product-card">
+                                    <div class="product-name">资金存放与增值</div>
+                                    <div class="product-desc">产品1,产品2,</div>
+                                </div>
+                                <div class="product-card">
+                                    <div class="product-name">供应链</div>
+                                    <div class="product-desc">产品1,产品2,</div>
+                                </div>
+                                <div class="product-card">
+                                    <div class="product-name">公私联动</div>
+                                    <div class="product-desc">产品1,产品2,</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-star"></i>
+                            投融资产品特点
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="case-item">
+                                <div class="case-title">
+                                    <i class="fas fa-check-circle"></i>
+                                    综合授信 A1 - 核心特点
+                                </div>
+                                <div class="case-desc">特点1,特点2,特点3</div>
+                            </div>
+                            
+                            <div class="case-item">
+                                <div class="case-title">
+                                    <i class="fas fa-check-circle"></i>
+                                    项目贷款 B2 - 核心特点
+                                </div>
+                                <div class="case-desc">特点1,特点2,特点3</div>
+                            </div>
+                            
+                            <div class="case-item">
+                                <div class="case-title">
+                                    <i class="fas fa-check-circle"></i>
+                                    发债 C3 - 核心特点
+                                </div>
+                                <div class="case-desc">特点1,特点2,特点3</div>
+                            </div>
+
+                             <div class="case-item">
+                                <div class="case-title">
+                                    <i class="fas fa-check-circle"></i>
+                                    投资银行 D4 - 核心特点
+                                </div>
+                                <div class="case-desc">特点1,特点2,特点3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 案例页面 -->
+                <div id="cases-page" class="page">
+                    <div class="p-4">
+                         <div class="flex items-center mb-6">
+                            <i class="fas fa-arrow-left text-[#3b82f6] mr-4 cursor-pointer" onclick="showPage('home-page')"></i>
+                            <h1 class="text-xl font-bold">案例学习</h1>
+                        </div>
+                        
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="搜索案例...">
+                        </div>
+                        
+                        <div class="flex space-x-2 mb-4 overflow-x-auto pb-2">
+                            <button class="space-tab active">全部</button>
+                            <button class="space-tab">近期已批业务</button>
+                            <button class="space-tab">政策导向</button>
+                        </div>
+                        
+                        <!-- <div class="section-title">经典开发模板</div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-medium text-white">大型客户签约流程优化案例</h3>
+                                <span class="space-badge bg-green-500/20 text-green-400">成功</span>
+                            </div>
+                            <p class="text-sm text-blue-300 mb-3">通过流程优化，将签约时间从14天缩短到7天，客户满意度提升30%</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-blue-400">销售部 · 2023-10-15</span>
+                                <div class="flex">
+                                    <i class="fas fa-eye text-blue-400 text-xs mr-2"></i>
+                                    <span class="text-xs text-blue-400">256</span>
+                                    <i class="fas fa-star text-blue-400 text-xs ml-3 mr-2"></i>
+                                    <span class="text-xs text-blue-400">34</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-medium text-white">跨境业务合规风险案例</h3>
+                                <span class="space-badge bg-red-500/20 text-red-400">风险</span>
+                            </div>
+                            <p class="text-sm text-blue-300 mb-3">分析近期跨境业务中遇到的合规问题及解决方案</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-blue-400">风控部 · 2023-10-10</span>
+                                <div class="flex">
+                                    <i class="fas fa-eye text-blue-400 text-xs mr-2"></i>
+                                    <span class="text-xs text-blue-400">189</span>
+                                    <i class="fas fa-star text-blue-400 text-xs ml-3 mr-2"></i>
+                                    <span class="text-xs text-blue-400">28</span>
+                                </div>
+                            </div>
+                        </div> -->
+                        
+                    
+                        <div class="section-title">近期已批业务</div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-medium text-white">XX公司-汽车与制造业</h3>
+                                <span class="space-badge bg-green-500/20 text-green-400">成功</span>
+                            </div>
+                            <p class="text-sm text-blue-300 mb-3">XX公司-汽车与制造业-汽车零配件-综合授信</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-blue-400">2023-09-28</span>
+                                <div class="flex">
+                                    <i class="fas fa-eye text-blue-400 text-xs mr-2"></i>
+                                    <span class="text-xs text-blue-400">542</span>
+                                    <i class="fas fa-star text-blue-400 text-xs ml-3 mr-2"></i>
+                                    <span class="text-xs text-blue-400">67</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-medium text-white">XX公司-租赁与服务</h3>
+                                <span class="space-badge bg-blue-500/20 text-blue-400">审批中</span>
+                            </div>
+                            <p class="text-sm text-blue-300 mb-3">XX公司-租赁与服务-产业运营-固定资产贷款</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-blue-400">2023-10-05</span>
+                                <div class="flex">
+                                    <i class="fas fa-eye text-blue-400 text-xs mr-2"></i>
+                                    <span class="text-xs text-blue-400">312</span>
+                                    <i class="fas fa-star text-blue-400 text-xs ml-3 mr-2"></i>
+                                    <span class="text-xs text-blue-400">45</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">政策导向</div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-medium text-white">政策支持方向</h3>
+                                <span class="space-badge bg-green-500/20 text-green-400">成功</span>
+                            </div>
+                            <p class="text-sm text-blue-300 mb-3">小水电</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-blue-400">公司部 · 2023-09-24</span>
+                                <div class="flex">
+                                    <i class="fas fa-eye text-blue-400 text-xs mr-2"></i>
+                                    <span class="text-xs text-blue-400">558</span>
+                                    <i class="fas fa-star text-blue-400 text-xs ml-3 mr-2"></i>
+                                    <span class="text-xs text-blue-400">66</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 考核工具箱页面 -->
+                <div id="assessment-tools-page" class="page">
+                    <div class="p-4">
+                        <div class="flex items-center mb-6">
+                            <i class="fas fa-arrow-left text-[#3b82f6] mr-4 cursor-pointer" onclick="showPage('home-page')"></i>
+                            <h1 class="text-xl font-bold">考核及定价工具箱</h1>
+                        </div>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-bell"></i>
+                            考核通知
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="notification-item">
+                                <div class="notification-title">
+                                    <i class="fas fa-info-circle"></i>
+                                    季度考核通知
+                                </div>
+                                <div class="case-desc">第三季度员工考核将于10月25日开始，请各位同事提前准备。</div>
+                                <div class="notification-date">发布时间: 2023-10-10</div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-title">
+                                    <i class="fas fa-info-circle"></i>
+                                    新考核标准说明
+                                </div>
+                                <div class="case-desc">2023年第四季度起将实施新的绩效考核标准，详情请查看附件。</div>
+                                <div class="notification-date">发布时间: 2023-09-28</div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-title">
+                                    <i class="fas fa-info-circle"></i>
+                                    考核培训安排
+                                </div>
+                                <div class="case-desc">将于10月20日举行考核标准解读培训，请相关人员准时参加。</div>
+                                <div class="notification-date">发布时间: 2023-10-05</div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-calculator"></i>
+                            定价计算工具
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="calc-tool">
+                                <div class="calc-title">存贷款定价工具</div>
+                                <input type="number" class="calc-input" placeholder="请输入风险评估等级">
+                                <input type="number" class="calc-input" placeholder="请输入贷款年限">
+                                <input type="number" class="calc-input" placeholder="请输入贷款金额">
+                                <button class="calc-btn">计算存贷款额度</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 联系人页面 -->
+                <div id="contacts-page" class="page">
+                    <div class="p-4">
+                        <div class="flex items-center mb-6">
+                            <i class="fas fa-arrow-left text-[#3b82f6] mr-4 cursor-pointer" onclick="showPage('home-page')"></i>
+                            <h1 class="text-xl font-bold">智库连线</h1>
+                        </div>
+                        
+                        <div class="search-bar mb-6">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="搜索联系人...">
+                        </div>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-users"></i>
+                            全部联系人
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="contact-item">
+                                <div class="contact-avatar">张</div>
+                                <div class="contact-info">
+                                    <div class="contact-name">张三</div>
+                                    <div class="contact-details">交易银行部 · 供应链业务</div>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-avatar">李</div>
+                                <div class="contact-info">
+                                    <div class="contact-name">李四</div>
+                                    <div class="contact-details">公司业务部 · 资金存放与增值</div>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-avatar">王</div>
+                                <div class="contact-info">
+                                    <div class="contact-name">王五</div>
+                                    <div class="contact-details">公司业务部 · 发债与投行</div>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-avatar">赵</div>
+                                <div class="contact-info">
+                                    <div class="contact-name">赵四</div>
+                                    <div class="contact-details">交易银行部 · 结算与现金管理</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 个人信息页面 -->
+                <div id="profile-page" class="page">
+                    <div class="p-4">
+                        <div class="flex flex-col items-center mb-6">
+                            <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mb-3">
+                                <span class="text-white text-2xl font-semibold">王</span>
+                            </div>
+                            <h1 class="text-xl font-bold">王小明</h1>
+                            <p class="text-[#94a3b8]">销售部 · 高级销售经理</p>
+                            <div class="badge mt-2" style="background-color: rgba(59, 130, 246, 0.15); color: #3b82f6; padding: 4px 12px; border-radius: 12px;">
+                                入职满一年
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-medium">学习进度</h3>
+                                <span class="text-xs text-blue-400">查看全部</span>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm mb-2 text-[#94a3b8]">
+                                    <span>已完成课程</span>
+                                    <span>12/24</span>
+                                </div>
+                                <div class="w-full bg-[#2a3448] rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-2 text-[#94a3b8]">
+                                    <span>案例学习</span>
+                                    <span>8/15</span>
+                                </div>
+                                <div class="w-full bg-[#2a3448] rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 53%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3 class="font-medium mb-4">个人信息</h3>
+                            <div class="space-y-3 text-[#94a3b8]">
+                                <div class="flex justify-between">
+                                    <span>员工ID</span>
+                                    <span>123456</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>部门</span>
+                                    <span>销售部</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>职位</span>
+                                    <span>高级销售经理</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>入职日期</span>
+                                    <span>2022-09-01</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>邮箱</span>
+                                    <span>wang@example.com</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>手机</span>
+                                    <span>138****1234</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3 class="font-medium mb-4">设置</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3 bg-[#2a3448]">
+                                            <i class="fas fa-bell text-blue-400"></i>
+                                        </div>
+                                        <span>通知设置</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-[#94a3b8]"></i>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3 bg-[#2a3448]">
+                                            <i class="fas fa-lock text-green-400"></i>
+                                        </div>
+                                        <span>隐私与安全</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-[#94a3b8]"></i>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3 bg-[#2a3448]">
+                                            <i class="fas fa-language text-purple-400"></i>
+                                        </div>
+                                        <span>语言设置</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-[#94a3b8]"></i>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3 bg-[#2a3448]">
+                                            <i class="fas fa-sign-out-alt text-red-400"></i>
+                                        </div>
+                                        <span>退出登录</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-[#94a3b8]"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 底部标签栏 -->
+            <div class="tab-bar">
+                <div class="tab-item active" onclick="showPage('home-page')">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="tab-item" onclick="showPage('professional-tools-page')">
+                    <i class="fas fa-search"></i>
+                    <span>IASK</span>
+                </div>
+                <div class="tab-item" onclick="showPage('profile-page')">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面切换功能
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.tab-item').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // 仅底部tab栏支持高亮
+            if (event && event.currentTarget && event.currentTarget.classList.contains('tab-item')) {
+                event.currentTarget.classList.add('active');
+            }
+            
+            // 滚动到顶部
+            document.querySelector('.app-content').scrollTop = 0;
+        }
+
+        // 模块展开/收缩功能
+        function toggleModule(moduleId) {
+            const content = document.getElementById(`${moduleId}-content`);
+            const chevron = document.getElementById(`${moduleId}-chevron`);
+            content.classList.toggle('expanded');
+            if (content.classList.contains('expanded')) {
+                chevron.classList.remove('fa-chevron-down');
+                chevron.classList.add('fa-chevron-up');
+            } else {
+                chevron.classList.remove('fa-chevron-up');
+                chevron.classList.add('fa-chevron-down');
+            }
+        }
+
+        // 查询页面常用词高亮
+        document.querySelectorAll('.sci-fi-btn').forEach(btn => {
+            btn.onclick = function() {
+                document.querySelectorAll('.sci-fi-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+
+        // 初始化：首页激活
+        document.querySelector('.tab-bar').children[0].classList.add('active');
+    </script>
+</body>
+</html>

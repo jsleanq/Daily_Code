@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案例学习 - 星航Box</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <div class="bg-white shadow-sm px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-arrow-left text-lg"></i>
+                </button>
+                <h1 class="text-xl font-bold text-gray-900">案例学习</h1>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-filter text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索和筛选栏 -->
+    <div class="px-4 py-4 space-y-3">
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <input type="text" 
+                   class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                   placeholder="搜索案例关键词...">
+        </div>
+        
+        <div class="flex space-x-2 overflow-x-auto">
+            <button class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm whitespace-nowrap">全部</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">优秀案例</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">风险案例</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">审批案例</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">合规案例</button>
+        </div>
+    </div>
+
+    <!-- 案例列表 -->
+    <div class="px-4 space-y-4">
+        <!-- 优秀案例 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">优秀案例</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-trophy text-green-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">客户投诉处理成功案例</h4>
+                                <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">优秀</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">通过有效沟通和及时响应，成功化解客户不满情绪，获得客户高度认可</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <span><i class="fas fa-calendar mr-1"></i>2024-01-15</span>
+                                <span><i class="fas fa-eye mr-1"></i>1,234次查看</span>
+                                <span><i class="fas fa-thumbs-up mr-1"></i>89%有用</span>
+                            </div>
+                            <div class="mt-3 flex space-x-2">
+                                <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700">查看详情</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200">收藏</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-star text-blue-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">业务流程优化案例</h4>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full">推荐</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">通过流程梳理和工具改进，将审批时间缩短50%，效率显著提升</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <span><i class="fas fa-calendar mr-1"></i>2024-01-10</span>
+                                <span><i class="fas fa-eye mr-1"></i>856次查看</span>
+                                <span><i class="fas fa-thumbs-up mr-1"></i>92%有用</span>
+                            </div>
+                            <div class="mt-3 flex space-x-2">
+                                <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700">查看详情</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200">收藏</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 风险案例 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">风险案例</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-red-100">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-red-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">合同条款风险案例</h4>
+                                <span class="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">风险</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">因合同条款理解偏差导致的法律风险，造成公司损失50万元</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <span><i class="fas fa-calendar mr-1"></i>2024-01-08</span>
+                                <span><i class="fas fa-eye mr-1"></i>2,156次查看</span>
+                                <span><i class="fas fa-thumbs-up mr-1"></i>95%有用</span>
+                            </div>
+                            <div class="mt-3 flex space-x-2">
+                                <button class="px-3 py-1 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700">查看详情</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200">收藏</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-orange-100">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-shield-alt text-orange-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">数据安全风险案例</h4>
+                                <span class="px-2 py-1 bg-orange-100 text-orange-600 text-xs rounded-full">警示</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">员工操作不当导致客户信息泄露，引发合规风险</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <span><i class="fas fa-calendar mr-1"></i>2024-01-05</span>
+                                <span><i class="fas fa-eye mr-1"></i>1,789次查看</span>
+                                <span><i class="fas fa-thumbs-up mr-1"></i>88%有用</span>
+                            </div>
+                            <div class="mt-3 flex space-x-2">
+                                <button class="px-3 py-1 bg-orange-600 text-white text-xs rounded-lg hover:bg-orange-700">查看详情</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200">收藏</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 审批案例 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">审批案例</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-check-circle text-purple-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">大额合同审批流程</h4>
+                                <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs rounded-full">审批</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">500万合同审批的完整流程和关键节点把控</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <span><i class="fas fa-calendar mr-1"></i>2024-01-12</span>
+                                <span><i class="fas fa-eye mr-1"></i>1,456次查看</span>
+                                <span><i class="fas fa-thumbs-up mr-1"></i>91%有用</span>
+                            </div>
+                            <div class="mt-3 flex space-x-2">
+                                <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700">查看详情</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200">收藏</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+        <div class="flex space-x-3">
+            <button class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                <i class="fas fa-plus mr-2"></i>添加案例
+            </button>
+            <button class="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors">
+                <i class="fas fa-bookmark"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程学习 - 星航Box</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <div class="bg-white shadow-sm px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-arrow-left text-lg"></i>
+                </button>
+                <h1 class="text-xl font-bold text-gray-900">课程学习</h1>
+            </div>
+            <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                <i class="fas fa-search text-lg"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 搜索栏 -->
+    <div class="px-4 py-4">
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <input type="text" 
+                   class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                   placeholder="搜索课程...">
+        </div>
+    </div>
+
+    <!-- 分类筛选 -->
+    <div class="px-4 pb-4">
+        <div class="flex space-x-2 overflow-x-auto">
+            <button class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm whitespace-nowrap">全部</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">入职培训</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">业务流程</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">风险防控</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">专业技能</button>
+        </div>
+    </div>
+
+    <!-- 课程列表 -->
+    <div class="px-4 space-y-4">
+        <!-- 推荐课程 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">推荐课程</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=80&h=80&fit=crop&crop=center" 
+                             class="w-16 h-16 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">新员工入职培训</h4>
+                                <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">必修</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">了解公司文化、制度流程和基本业务知识</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                    <span><i class="fas fa-clock mr-1"></i>2小时</span>
+                                    <span><i class="fas fa-users mr-1"></i>1,234人学习</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 rounded-full h-1.5 mr-2">
+                                        <div class="bg-blue-600 h-1.5 rounded-full" style="width: 75%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500">75%</span>
+                                </div>
+                            </div>
+                            <button class="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                                继续学习
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=80&h=80&fit=crop&crop=center" 
+                             class="w-16 h-16 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">业务流程标准化</h4>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full">推荐</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">掌握公司核心业务流程和操作规范</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                    <span><i class="fas fa-clock mr-1"></i>3小时</span>
+                                    <span><i class="fas fa-users mr-1"></i>856人学习</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 rounded-full h-1.5 mr-2">
+                                        <div class="bg-green-600 h-1.5 rounded-full" style="width: 100%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500">已完成</span>
+                                </div>
+                            </div>
+                            <button class="mt-3 w-full bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                重新学习
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 热门课程 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">热门课程</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=center" 
+                             class="w-16 h-16 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">风险防控指南</h4>
+                                <span class="px-2 py-1 bg-orange-100 text-orange-600 text-xs rounded-full">热门</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">学习常见风险识别与防控措施</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                    <span><i class="fas fa-clock mr-1"></i>1.5小时</span>
+                                    <span><i class="fas fa-users mr-1"></i>2,156人学习</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 rounded-full h-1.5 mr-2">
+                                        <div class="bg-gray-300 h-1.5 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500">未开始</span>
+                                </div>
+                            </div>
+                            <button class="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                                开始学习
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=80&h=80&fit=crop&crop=center" 
+                             class="w-16 h-16 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-900">客户服务技巧</h4>
+                                <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs rounded-full">选修</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">提升客户沟通和服务质量</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                    <span><i class="fas fa-clock mr-1"></i>2.5小时</span>
+                                    <span><i class="fas fa-users mr-1"></i>1,789人学习</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 rounded-full h-1.5 mr-2">
+                                        <div class="bg-blue-600 h-1.5 rounded-full" style="width: 40%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500">40%</span>
+                                </div>
+                            </div>
+                            <button class="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                                继续学习
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 我的学习记录 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">我的学习记录</h3>
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="text-2xl font-bold text-blue-600">8</div>
+                        <div class="text-xs text-gray-500">已完成</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-orange-600">3</div>
+                        <div class="text-xs text-gray-500">进行中</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-gray-600">12</div>
+                        <div class="text-xs text-gray-500">总学时</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+        <div class="flex space-x-3">
+            <button class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                <i class="fas fa-external-link-alt mr-2"></i>访问学习平台
+            </button>
+            <button class="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors">
+                <i class="fas fa-download"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

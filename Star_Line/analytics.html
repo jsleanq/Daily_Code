@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计分析 - 星航Box</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <div class="bg-white shadow-sm px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-arrow-left text-lg"></i>
+                </button>
+                <h1 class="text-xl font-bold text-gray-900">统计分析</h1>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-calendar text-lg"></i>
+                </button>
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-download text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 时间筛选 -->
+    <div class="px-4 py-4">
+        <div class="flex space-x-2 overflow-x-auto">
+            <button class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm whitespace-nowrap">本月</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">上月</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">本季度</button>
+            <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm whitespace-nowrap border border-gray-200">自定义</button>
+        </div>
+    </div>
+
+    <!-- 统计概览 -->
+    <div class="px-4 space-y-6">
+        <!-- 关键指标 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">关键指标</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-blue-600"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-blue-600">8</span>
+                    </div>
+                    <h4 class="font-medium text-gray-900">已完成课程</h4>
+                    <p class="text-sm text-gray-500">较上月 +2</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-book-open text-green-600"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-green-600">12</span>
+                    </div>
+                    <h4 class="font-medium text-gray-900">学习案例</h4>
+                    <p class="text-sm text-gray-500">较上月 +5</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clock text-purple-600"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-purple-600">24</span>
+                    </div>
+                    <h4 class="font-medium text-gray-900">学习时长(小时)</h4>
+                    <p class="text-sm text-gray-500">较上月 +8</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-chart-line text-orange-600"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-orange-600">85%</span>
+                    </div>
+                    <h4 class="font-medium text-gray-900">完成率</h4>
+                    <p class="text-sm text-gray-500">较上月 +5%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学习进度 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">学习进度</h3>
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-900">新员工入职培训</span>
+                            <span class="text-sm text-gray-500">100%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-900">业务流程标准化</span>
+                            <span class="text-sm text-gray-500">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-900">风险防控指南</span>
+                            <span class="text-sm text-gray-500">60%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-orange-600 h-2 rounded-full" style="width: 60%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-900">客户服务技巧</span>
+                            <span class="text-sm text-gray-500">40%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-purple-600 h-2 rounded-full" style="width: 40%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学习趋势 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">学习趋势</h3>
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <div class="h-32 bg-gray-50 rounded-lg flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-chart-line text-3xl text-gray-400 mb-2"></i>
+                        <p class="text-sm text-gray-500">学习趋势图表</p>
+                        <p class="text-xs text-gray-400">（此处可集成图表库）</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 案例学习统计 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">案例学习统计</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-trophy text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">优秀案例</h4>
+                                <p class="text-sm text-gray-500">已学习 8 个案例</p>
+                            </div>
+                        </div>
+                        <span class="text-2xl font-bold text-green-600">8</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-red-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">风险案例</h4>
+                                <p class="text-sm text-gray-500">已学习 4 个案例</p>
+                            </div>
+                        </div>
+                        <span class="text-2xl font-bold text-red-600">4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 专家咨询统计 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">专家咨询统计</h3>
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="text-2xl font-bold text-blue-600">5</div>
+                        <div class="text-xs text-gray-500">总咨询次数</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-green-600">4</div>
+                        <div class="text-xs text-gray-500">已回复</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-orange-600">1</div>
+                        <div class="text-xs text-gray-500">待回复</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+        <div class="flex space-x-3">
+            <button class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                <i class="fas fa-plus mr-2"></i>录入数据
+            </button>
+            <button class="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors">
+                <i class="fas fa-share"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

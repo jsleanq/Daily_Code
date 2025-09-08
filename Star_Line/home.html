@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 星航Box</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <div class="bg-white shadow-sm px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-gray-900">星航Box</h1>
+                <p class="text-sm text-gray-500">员工工具箱</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-bell text-lg"></i>
+                </button>
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span class="text-white text-sm font-medium">张</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="px-4 py-6 space-y-6">
+        <!-- 欢迎卡片 -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 text-white">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h2 class="text-lg font-semibold">欢迎回来，张小明</h2>
+                    <p class="text-blue-100 text-sm">今天是您入职的第15天</p>
+                </div>
+                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-rocket text-xl"></i>
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                    <div class="text-2xl font-bold">8</div>
+                    <div class="text-xs text-blue-100">已完成课程</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold">12</div>
+                    <div class="text-xs text-blue-100">学习案例</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold">5</div>
+                    <div class="text-xs text-blue-100">专家咨询</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 快速入口 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">快速入口</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-graduation-cap text-green-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">课程学习</h4>
+                            <p class="text-xs text-gray-500">在线培训课程</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-600">3个新课程待学习</div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-book-open text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">案例学习</h4>
+                            <p class="text-xs text-gray-500">优秀案例分析</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-600">5个新案例</div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-address-book text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">联系人</h4>
+                            <p class="text-xs text-gray-500">业务联系人</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-600">12个联系人</div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-bar text-orange-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">统计分析</h4>
+                            <p class="text-xs text-gray-500">数据统计</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-600">本月数据</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最新动态 -->
+        <div>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">最新动态</h3>
+                <button class="text-blue-600 text-sm">查看全部</button>
+            </div>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-check text-green-600 text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-900">您已完成《新员工入职培训》课程</p>
+                            <p class="text-xs text-gray-500 mt-1">2小时前</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-book text-blue-600 text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-900">新增《风险防控案例集》学习材料</p>
+                            <p class="text-xs text-gray-500 mt-1">1天前</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user text-purple-600 text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-900">李经理回复了您的专家咨询</p>
+                            <p class="text-xs text-gray-500 mt-1">2天前</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 推荐学习 -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">推荐学习</h3>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=60&h=60&fit=crop&crop=center" 
+                             class="w-12 h-12 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">业务流程标准化</h4>
+                            <p class="text-sm text-gray-500">了解公司核心业务流程</p>
+                            <div class="flex items-center mt-1">
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mr-2">
+                                    <div class="bg-blue-600 h-1.5 rounded-full" style="width: 60%"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">60%</span>
+                            </div>
+                        </div>
+                        <button class="text-blue-600 text-sm">继续</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=60&h=60&fit=crop&crop=center" 
+                             class="w-12 h-12 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">风险防控指南</h4>
+                            <p class="text-sm text-gray-500">学习常见风险识别与防控</p>
+                            <div class="flex items-center mt-1">
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mr-2">
+                                    <div class="bg-green-600 h-1.5 rounded-full" style="width: 100%"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">已完成</span>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 text-sm">查看</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

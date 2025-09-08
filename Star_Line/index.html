@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星航Box - 员工工具箱</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .phone-container {
+            width: 393px;
+            height: 852px;
+            margin: 20px auto;
+            background: #000;
+            border-radius: 40px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+        .status-bar {
+            height: 44px;
+            background: #000;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .app-content {
+            height: calc(100% - 44px - 83px);
+            overflow-y: auto;
+        }
+        .tab-bar {
+            height: 83px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #6b7280;
+            font-size: 10px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .tab-item.active {
+            color: #3b82f6;
+        }
+        .tab-item i {
+            font-size: 20px;
+        }
+        .page-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+        .page-frame.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="phone-container">
+        <div class="phone-screen">
+            <!-- iOS状态栏 -->
+            <div class="status-bar">
+                <span>9:41</span>
+                <div class="flex items-center gap-1">
+                    <i class="fas fa-signal text-xs"></i>
+                    <i class="fas fa-wifi text-xs"></i>
+                    <i class="fas fa-battery-three-quarters text-xs"></i>
+                </div>
+            </div>
+            
+            <!-- App内容区域 -->
+            <div class="app-content">
+                <!-- 登录页面 -->
+                <iframe src="login.html" class="page-frame active" id="login-page"></iframe>
+                
+                <!-- 首页 -->
+                <iframe src="home.html" class="page-frame" id="home-page"></iframe>
+                
+                <!-- 课程学习 -->
+                <iframe src="courses.html" class="page-frame" id="courses-page"></iframe>
+                
+                <!-- 案例学习 -->
+                <iframe src="cases.html" class="page-frame" id="cases-page"></iframe>
+                
+                <!-- 联系人 -->
+                <iframe src="contacts.html" class="page-frame" id="contacts-page"></iframe>
+                
+                <!-- 统计分析 -->
+                <iframe src="analytics.html" class="page-frame" id="analytics-page"></iframe>
+                
+                <!-- 个人设置 -->
+                <iframe src="profile.html" class="page-frame" id="profile-page"></iframe>
+            </div>
+            
+            <!-- 底部TabBar -->
+            <div class="tab-bar">
+                <div class="tab-item active" onclick="showPage('home-page')">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="tab-item" onclick="showPage('courses-page')">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>课程</span>
+                </div>
+                <div class="tab-item" onclick="showPage('cases-page')">
+                    <i class="fas fa-book-open"></i>
+                    <span>案例</span>
+                </div>
+                <div class="tab-item" onclick="showPage('contacts-page')">
+                    <i class="fas fa-address-book"></i>
+                    <span>联系人</span>
+                </div>
+                <div class="tab-item" onclick="showPage('analytics-page')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>统计</span>
+                </div>
+                <div class="tab-item" onclick="showPage('profile-page')">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // 隐藏所有页面
+            const pages = document.querySelectorAll('.page-frame');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // 显示选中的页面
+            document.getElementById(pageId).classList.add('active');
+            
+            // 更新TabBar状态
+            const tabs = document.querySelectorAll('.tab-item');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.closest('.tab-item').classList.add('active');
+        }
+        
+        // 登录成功后跳转到首页
+        function loginSuccess() {
+            showPage('home-page');
+        }
+    </script>
+</body>
+</html>
