@@ -18,6 +18,16 @@
             --dark-border: #2a3448;
             --text-primary: #e2e8f0;
             --text-secondary: #94a3b8;
+            
+            /* 新增颜色变量 */
+            --toolbox-color: #3b82f6;
+            --business-cases-color: #10b981;
+            --contacts-color: #8b5cf6;
+            --pitfalls-guide-color: #f59e0b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #0ea5e9;
         }
         
         body {
@@ -205,22 +215,122 @@
         
         .module-title i {
             margin-right: 10px;
-            color: var(--primary);
             font-size: 18px;
+        }
+        
+        /* 为不同模块设置不同的图标颜色 */
+        .module-card:nth-child(1) .module-title i {
+            color: var(--toolbox-color);
+        }
+        
+        .module-card:nth-child(2) .module-title i {
+            color: var(--business-cases-color);
+        }
+        
+        .module-card:nth-child(3) .module-title i {
+            color: var(--contacts-color);
+        }
+        
+        .module-card:nth-child(4) .module-title i {
+            color: var(--pitfalls-guide-color);
+        }
+        
+        /* 突出显示模块卡片 */
+        .module-card {
+            background-color: var(--dark-card);
+            border-radius: 16px;
+            margin: 10px 16px;
+            overflow: hidden;
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .module-header {
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .module-header:hover {
+            background-color: rgba(42, 52, 72, 0.3);
+        }
+        
+        .sub-option i {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+        
+        /* 为子选项设置不同的图标颜色 */
+        .module-card:nth-child(1) .sub-option i {
+            color: var(--toolbox-color);
+        }
+        
+        .module-card:nth-child(2) .sub-option i {
+            color: var(--business-cases-color);
+        }
+        
+        .module-card:nth-child(3) .sub-option i {
+            color: var(--contacts-color);
+        }
+        
+        .module-card:nth-child(4) .sub-option i {
+            color: var(--pitfalls-guide-color);
+        }
+        
+        .sub-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .module-card:nth-child(1) .sub-option:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        .module-card:nth-child(2) .sub-option:hover {
+            background-color: rgba(16, 185, 129, 0.2);
+        }
+        
+        .module-card:nth-child(3) .sub-option:hover {
+            background-color: rgba(139, 92, 246, 0.2);
+        }
+        
+        .module-card:nth-child(4) .sub-option:hover {
+            background-color: rgba(245, 158, 11, 0.2);
         }
         
         .module-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 0 16px 16px;
+            gap: 8px;
+            padding: 0 12px 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
+            opacity: 0;
+            transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
         }
         
         .module-content.expanded {
-            max-height: 180px; /* 减少高度使下拉更窄 */
+            max-height: 180px; /* 更紧凑的高度 */
+            padding: 0 12px 12px;
+            opacity: 1;
+        }
+        
+        .module-header .fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+        
+        .module-header .fa-chevron-up {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
         }
         
         .sub-option {
@@ -1731,6 +1841,21 @@
         function toggleModule(moduleId) {
             const content = document.getElementById(`${moduleId}-content`);
             const chevron = document.getElementById(`${moduleId}-chevron`);
+            
+            // 关闭其他已展开的模块
+            document.querySelectorAll('.module-content.expanded').forEach(expandedContent => {
+                if (expandedContent !== content) {
+                    expandedContent.classList.remove('expanded');
+                    const otherChevronId = expandedContent.id.replace('-content', '-chevron');
+                    const otherChevron = document.getElementById(otherChevronId);
+                    if (otherChevron) {
+                        otherChevron.classList.remove('fa-chevron-up');
+                        otherChevron.classList.add('fa-chevron-down');
+                    }
+                }
+            });
+            
+            // 切换当前模块
             content.classList.toggle('expanded');
             if (content.classList.contains('expanded')) {
                 chevron.classList.remove('fa-chevron-down');
