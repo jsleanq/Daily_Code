@@ -1,766 +1,355 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>业务报表 - 星航Box</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        :root {
-            --primary: #3b82f6;
-            --primary-light: #60a5fa;
-            --primary-dark: #2563eb;
-            --dark-bg: #121826;
-            --dark-card: #1a243a;
-            --dark-border: #2a3448;
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0b0b2d, #1a1a40);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            color: #fff;
-            overflow-x: hidden;
-        }
-        
-        .iphone-frame {
-            width: 390px;
-            height: 844px;
-            background-color: #000;
-            border-radius: 40px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--dark-border);
-        }
-        
-        .screen {
-            width: 100%;
-            height: 100%;
-            background-color: var(--dark-bg);
-            border-radius: 36px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(80, 80, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(120, 120, 255, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 40% 80%, rgba(60, 60, 200, 0.1) 0%, transparent 40%);
-            z-index: 0;
-        }
-        
-        .status-bar {
-            height: 44px;
-            background-color: rgba(26, 36, 58, 0.9);
-            color: var(--text-primary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            z-index: 2;
-            border-bottom: 1px solid var(--dark-border);
-        }
-        
-        .app-content {
-            height: calc(100% - 44px - 80px);
-            overflow-y: auto;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .tab-bar {
-            height: 80px;
-            background-color: rgba(26, 36, 58, 0.9);
-            border-top: 1px solid var(--dark-border);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            z-index: 2;
-        }
-        
-        .tab-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: var(--text-secondary);
-            padding: 8px 0;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .tab-item.active {
-            color: var(--primary);
-        }
-        
-        .tab-item i {
-            font-size: 22px;
-            margin-bottom: 4px;
-            transition: all 0.2s ease;
-        }
-        
-        .tab-item.active i {
-            color: var(--primary);
-        }
-        
-        .page {
-            display: none;
-            height: 100%;
-            overflow-y: auto;
-        }
-        
-        .page.active {
-            display: block;
-        }
-        
-        .module-card {
-            background-color: var(--dark-card);
-            border-radius: 16px;
-            margin: 12px 16px;
-            overflow: hidden;
-            border: 1px solid var(--dark-border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .module-header {
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .module-header:hover {
-            background-color: rgba(42, 52, 72, 0.2);
-        }
-        
-        .module-title {
-            font-size: 16px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
-        
-        .module-title i {
-            margin-right: 10px;
-            color: var(--primary);
-            font-size: 18px;
-        }
-        
-        .module-content {
-            padding: 0 16px 16px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-        }
-        
-        .module-content.expanded {
-            max-height: 1000px;
-        }
-        
-        .section-title {
-            font-size: 17px;
-            font-weight: 600;
-            margin: 20px 16px 12px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: var(--primary);
-        }
-        
-        .content-card {
-            background-color: var(--dark-card);
-            border-radius: 16px;
-            padding: 18px;
-            margin: 12px 16px;
-            border: 1px solid var(--dark-border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .policy-item {
-            padding: 14px 0;
-            border-bottom: 1px solid var(--dark-border);
-        }
-        
-        .policy-item:last-child {
-            border-bottom: none;
-        }
-        
-        .policy-title {
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            font-size: 15px;
-        }
-        
-        .policy-title i {
-            margin-right: 8px;
-            color: var(--primary);
-            font-size: 14px;
-        }
-        
-        .policy-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-            line-height: 1.4;
-        }
-        
-        .policy-date {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        
-        .chart-container {
-            height: 200px;
-            background: linear-gradient(180deg, rgba(42, 52, 72, 0.6) 0%, rgba(26, 36, 58, 0.8) 100%);
-            border-radius: 12px;
-            margin-top: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--dark-border);
-        }
-        
-        .framework-container {
-            display: flex;
-            justify-content: center;
-            margin: 16px 0;
-        }
-        
-        .framework-box {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.3));
-            border: 1px solid var(--primary);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0 8px;
-            position: relative;
-        }
-        
-        .framework-box:not(:last-child)::after {
-            content: '→';
-            position: absolute;
-            right: -18px;
-            color: var(--primary);
-            font-size: 18px;
-        }
-        
-        .framework-box i {
-            font-size: 24px;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-        
-        .framework-box span {
-            font-size: 12px;
-            color: var(--text-primary);
-        }
-        
-        .process-list {
-            counter-reset: process-counter;
-            list-style-type: none;
-            padding: 0;
-        }
-        
-        .process-item {
-            counter-increment: process-counter;
-            padding: 14px 0 14px 40px;
-            border-bottom: 1px solid var(--dark-border);
-            position: relative;
-        }
-        
-        .process-item:last-child {
-            border-bottom: none;
-        }
-        
-        .process-item::before {
-            content: counter(process-counter);
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 28px;
-            height: 28px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .process-title {
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 15px;
-        }
-        
-        .process-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-        
-        .docs-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        
-        .docs-item {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--dark-border);
-            display: flex;
-            align-items: center;
-        }
-        
-        .docs-item:last-child {
-            border-bottom: none;
-        }
-        
-        .docs-item i {
-            margin-right: 12px;
-            color: var(--primary);
-            font-size: 16px;
-        }
-        
-        .docs-item span {
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-        
-        .filter-bar {
-            display: flex;
-            gap: 8px;
-            margin: 16px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-        }
-        
-        .filter-btn {
-            padding: 8px 16px;
-            border-radius: 20px;
-            background-color: rgba(42, 52, 72, 0.6);
-            border: 1px solid var(--dark-border);
-            color: var(--text-secondary);
-            font-size: 14px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        
-        .filter-btn.active {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .app-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .app-content::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .app-content::-webkit-scrollbar-thumb {
-            background: rgba(59, 130, 246, 0.3);
-            border-radius: 3px;
-        }
-        
-        .app-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(59, 130, 246, 0.5);
-        }
-        
-        .welcome-banner {
-            background: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(139, 92, 246, 0.7));
-            border-radius: 18px;
-            padding: 20px;
-            color: white;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            margin: 16px;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .welcome-banner::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-        
-        .welcome-banner::after {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: -30px;
-            width: 100px;
-            height: 100px;
-            background: rgba(139, 92, 246, 0.1);
-            border-radius: 50%;
-        }
-    </style>
-</head>
-<body>
-    <!-- iPhone模拟框架 -->
-    <div class="iphone-frame">
-        <div class="screen">
-            <!-- iOS状态栏 -->
-            <div class="status-bar">
-                <div>15:30</div>
-                <div>
-                    <i class="fas fa-signal"></i>
-                    <i class="fas fa-wifi" style="margin-left: 5px;"></i>
-                    <i class="fas fa-battery-full" style="margin-left: 5px;"></i>
-                </div>
-            </div>
-            
-            <!-- 应用内容区域 -->
-            <div class="app-content">
-                <!-- 业务报表页面 -->
-                <div id="business-report-page" class="page active">
-                    <!-- 欢迎栏 -->
-                    <div class="welcome-banner">
-                        <h1 class="text-xl font-bold mb-2 relative z-10">业务报表分析</h1>
-                        <p class="text-blue-100 relative z-10 text-sm">信贷政策与财务分析工具</p>
-                        <div class="absolute top-4 right-4 text-2xl">📊</div>
+                    <!-- 热门案例 -->
+                    <div class="section-title">
+                        <i class="fas fa-fire"></i>
+                        热门案例
                     </div>
                     
-                    <!-- 信贷政策模块 -->
-                    <div class="module-card">
-                        <div class="module-header" onclick="toggleModule('credit-policy')">
-                            <div class="module-title">
+                    <div class="content-card">
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-chart-line"></i>
+                                跨境业务合规优化案例
+                            </div>
+                            <div class="case-desc">通过流程优化将跨境业务处理时间缩短40%，客户满意度提升25%</div>
+                            <div class="case-date">浏览 342次 · 2023-10-15</div>
+                        </div>
+                        
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-users"></i>
+                                大客户签约成功案例
+                            </div>
+                            <div class="case-desc">某跨国企业年度服务合约签约全过程及关键成功因素分析</div>
+                            <div class="case-date">浏览 289次 · 2023-10-08</div>
+                        </div>
+                        
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-handshake"></i>
+                                客户关系维护最佳实践
+                            </div>
+                            <div class="case-desc">长期客户关系维护的策略与实施方法，有效降低客户流失率</div>
+                            <div class="case-date">浏览 256次 · 2023-10-02</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 避坑指南 -->
+                    <div class="section-title">
+                        <i class="fas fa-shield-alt"></i>
+                        避坑指南
+                    </div>
+                    
+                    <div class="content-card">
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-exclamation-circle"></i>
+                                数据安全合规要点
+                            </div>
+                            <div class="case-desc">最新数据安全法规解读及企业合规操作指南，避免违规风险</div>
+                            <div class="case-date">更新于 2023-10-12</div>
+                        </div>
+                        
+                        <div class="case-item">
+                            <div class="case-title">
                                 <i class="fas fa-file-contract"></i>
-                                信贷政策
+                                合同审核常见陷阱
                             </div>
-                            <i class="fas fa-chevron-down text-sm" id="credit-policy-chevron"></i>
+                            <div class="case-desc">商业合同中容易被忽略的关键条款及风险防范措施</div>
+                            <div class="case-date">更新于 2023-10-05</div>
                         </div>
-                        <div class="module-content" id="credit-policy-content">
-                            <div class="filter-bar">
-                                <div class="filter-btn active">全部</div>
-                                <div class="filter-btn">企业信贷</div>
-                                <div class="filter-btn">个人信贷</div>
-                                <div class="filter-btn">行业政策</div>
+                        
+                        <div class="case-item">
+                            <div class="case-title">
+                                <i class="fas fa-user-secret"></i>
+                                客户信息保护指南
+                            </div>
+                            <div class="case-desc">客户个人信息处理规范，确保符合隐私保护法规要求</div>
+                            <div class="case-date">更新于 2023-09-28</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 查询页面 -->
+                <div id="query-page" class="page">
+                    <div class="search-page">
+                        <div class="search-container">
+                            <div class="search-title">全局搜索</div>
+                            <div class="search-bar">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="输入关键词搜索...">
                             </div>
                             
-                            <div class="policy-item">
-                                <div class="policy-title">
-                                    <i class="fas fa-building"></i>
-                                    中小企业信贷支持政策
+                            <div class="search-suggestions">
+                                <div class="suggestion-title">常用搜索</div>
+                                <div class="suggestion-tags">
+                                    <div class="suggestion-tag">合规政策</div>
+                                    <div class="suggestion-tag">业务流程</div>
+                                    <div class="suggestion-tag">产品手册</div>
+                                    <div class="suggestion-tag">风险评估</div>
+                                    <div class="suggestion-tag">客户管理</div>
+                                    <div class="suggestion-tag">数据安全</div>
+                                    <div class="suggestion-tag">合同模板</div>
+                                    <div class="suggestion-tag">考核标准</div>
                                 </div>
-                                <div class="policy-desc">针对注册资本500万以下企业提供专项低息贷款,最高额度300万元。</div>
-                                <div class="policy-date">更新日期: 2023-10-15</div>
                             </div>
-                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 政策导向页面 -->
+                <div id="policy-guide-page" class="page">
+                    <div class="p-4">
+                        <div class="back-button" onclick="showPage('home-page')">
+                            <i class="fas fa-arrow-left"></i>
+                            返回首页
+                        </div>
+                        
+                        <h1 class="text-xl font-bold mb-6 px-4">政策导向</h1>
+                        
+                        <div class="filter-bar">
+                            <div class="filter-btn active">全部</div>
+                            <div class="filter-btn">本月</div>
+                            <div class="filter-btn">本季度</div>
+                            <div class="filter-btn">2023年</div>
+                        </div>
+                        
+                        <div class="content-card">
                             <div class="policy-item">
-                                <div class="policy-title">
-                                    <i class="fas fa-home"></i>
-                                    绿色能源行业信贷优惠
+                                <div class="item-title">
+                                    <i class="fas fa-file-alt"></i>
+                                    数据安全法最新解读
                                 </div>
-                                <div class="policy-desc">对太阳能、风能等绿色能源企业提供利率优惠,最长5年期限。</div>
-                                <div class="policy-date">更新日期: 2023-10-10</div>
+                                <div class="item-desc">国家数据安全法最新修订内容解读，对企业数据管理提出的新要求及合规建议。</div>
+                                <div class="item-date">2023-10-15 · 信息安全部</div>
                             </div>
                             
                             <div class="policy-item">
-                                <div class="policy-title">
+                                <div class="item-title">
+                                    <i class="fas fa-globe"></i>
+                                    跨境数据传输新规
+                                </div>
+                                <div class="item-desc">关于跨境数据传输安全管理规定的最新政策解读，涉及数据出境安全评估流程和要求。</div>
+                                <div class="item-date">2023-10-08 · 法规合规部</div>
+                            </div>
+                            
+                            <div class="policy-item">
+                                <div class="item-title">
+                                    <i class="fas fa-industry"></i>
+                                    行业监管政策更新
+                                </div>
+                                <div class="item-desc">本季度行业监管政策主要变化汇总，包括市场准入、业务规范、消费者权益保护等方面。</div>
+                                <div class="item-date">2023-10-01 · 政策研究部</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 行业风险页面 -->
+                <div id="industry-risks-page" class="page">
+                    <div class="p-4">
+                        <div class="back-button" onclick="showPage('home-page')">
+                            <i class="fas fa-arrow-left"></i>
+                            返回首页
+                        </div>
+                        
+                        <h1 class="text-xl font-bold mb-6 px-4">行业风险分析</h1>
+                        
+                        <div class="filter-bar">
+                            <div class="filter-btn active">全部风险</div>
+                            <div class="filter-btn">高风险</div>
+                            <div class="filter-btn">中风险</div>
+                            <div class="filter-btn">低风险</div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    市场竞争加剧风险
+                                    <span class="item-tag">高风险</span>
+                                </div>
+                                <div class="item-desc">行业新进入者增多，价格竞争激烈，利润率持续下降。建议加强产品差异化，提升服务质量。</div>
+                                <div class="risk-level">
+                                    <div class="risk-dot high"></div>
+                                    <span class="risk-text">发生概率: 高 | 影响程度: 严重</span>
+                                </div>
+                                <div class="item-date">更新于 2023-10-16 · 市场分析部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-balance-scale"></i>
+                                    政策法规变化风险
+                                    <span class="item-tag blue">中风险</span>
+                                </div>
+                                <div class="item-desc">监管政策趋严，合规要求不断提高。建议建立政策跟踪机制，及时调整业务策略。</div>
+                                <div class="risk-level">
+                                    <div class="risk-dot medium"></div>
+                                    <span class="risk-text">发生概率: 中 | 影响程度: 中等</span>
+                                </div>
+                                <div class="item-date">更新于 2023-10-10 · 法规合规部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    汇率波动风险
+                                    <span class="item-tag">高风险</span>
+                                </div>
+                                <div class="item-desc">国际汇率波动加大，影响跨境业务成本和收益。建议使用金融工具进行汇率风险对冲。</div>
+                                <div class="risk-level">
+                                    <div class="risk-dot high"></div>
+                                    <span class="risk-text">发生概率: 中 | 影响程度: 严重</span>
+                                </div>
+                                <div class="item-date">更新于 2023-10-05 · 财务部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-microchip"></i>
+                                    技术迭代风险
+                                    <span class="item-tag blue">中风险</span>
+                                </div>
+                                <div class="item-desc">新技术快速发展，现有技术面临淘汰风险。建议加大研发投入，保持技术竞争力。</div>
+                                <div class="risk-level">
+                                    <div class="risk-dot medium"></div>
+                                    <span class="risk-text">发生概率: 中 | 影响程度: 中等</span>
+                                </div>
+                                <div class="item-date">更新于 2023-09-28 · 技术研发部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-user-friends"></i>
+                                    人才流失风险
+                                    <span class="item-tag green">低风险</span>
+                                </div>
+                                <div class="item-desc">行业人才竞争激烈，核心技术人员流失风险增加。建议完善人才培养和保留机制。</div>
+                                <div class="risk-level">
+                                    <div class="risk-dot low"></div>
+                                    <span class="risk-text">发生概率: 低 | 影响程度: 中等</span>
+                                </div>
+                                <div class="item-date">更新于 2023-09-22 · 人力资源部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-server"></i>
+                                    供应链中断风险
+                                    <span class="item-tag orange">中高风险</span>
+                                </div>
+                                <div class="item-desc">全球供应链不稳定，关键零部件供应可能受到影响。建议建立多元化供应商体系。</div>
+                                <div class="risk-level">
+                                    <div class="risk-dot high"></div>
+                                    <span class="risk-text">发生概率: 中 | 影响程度: 高</span>
+                                </div>
+                                <div class="item-date">更新于 2023-09-15 · 供应链管理部</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 风险案例页面 -->
+                <div id="risk-cases-page" class="page">
+                    <div class="p-4">
+                        <div class="back-button" onclick="showPage('home-page')">
+                            <i class="fas fa-arrow-left"></i>
+                            返回首页
+                        </div>
+                        
+                        <h1 class="text-xl font-bold mb-6 px-4">风险案例库</h1>
+                        
+                        <div class="filter-bar">
+                            <div class="filter-btn active">全部案例</div>
+                            <div class="filter-btn">合同风险</div>
+                            <div class="filter-btn">数据安全</div>
+                            <div class="filter-btn">操作风险</div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-file-contract"></i>
+                                    合同条款漏洞案例
+                                    <span class="item-tag">高风险</span>
+                                </div>
+                                <div class="item-desc">某项目因合同条款不明确导致纠纷，损失金额约200万元。教训：合同审核需更加严谨，特别是责任限制和违约条款。</div>
+                                <div class="risk-level">
+                                    <span class="impact-tag">经济损失</span>
+                                    <span class="impact-tag">法律纠纷</span>
+                                </div>
+                                <div class="item-date">2023-10-12 · 风险控制部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-shield-alt"></i>
+                                    数据泄露事件
+                                    <span class="item-tag">高风险</span>
+                                </div>
+                                <div class="item-desc">员工违规操作导致客户数据泄露，公司面临监管处罚和声誉损失。加强数据访问权限管理和员工安全意识培训。</div>
+                                <div class="risk-level">
+                                    <span class="impact-tag">监管处罚</span>
+                                    <span class="impact-tag">声誉损害</span>
+                                </div>
+                                <div class="item-date">2023-10-05 · 信息安全部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    跨境支付风险案例
+                                    <span class="item-tag blue">中风险</span>
+                                </div>
+                                <div class="item-desc">因未充分了解目的地国家外汇管制政策，导致资金滞留境外2周。完善跨境业务国别风险评估流程。</div>
+                                <div class="risk-level">
+                                    <span class="impact-tag">资金滞留</span>
+                                    <span class="impact-tag">运营中断</span>
+                                </div>
+                                <div class="item-date">2023-09-27 · 国际业务部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-gem"></i>
+                                    供应商欺诈案例
+                                    <span class="item-tag">高风险</span>
+                                </div>
+                                <div class="item-desc">新供应商提供虚假资质证明，导致采购物资质量不达标。加强供应商背景调查和资质审核。</div>
+                                <div class="risk-level">
+                                    <span class="impact-tag">质量风险</span>
+                                    <span class="impact-tag">供应链中断</span>
+                                </div>
+                                <div class="item-date">2023-09-20 · 采购部</div>
+                            </div>
+                            
+                            <div class="risk-item">
+                                <div class="item-title">
                                     <i class="fas fa-chart-line"></i>
-                                    三季度信贷额度调整
+                                    市场误判案例
+                                    <span class="item-tag blue">中风险</span>
                                 </div>
-                                <div class="policy-desc">根据央行指导,三季度企业信贷总额度上调15%，个人消费贷额度维持不变。</div>
-                                <div class="policy-date">更新日期: 2023-09-28</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 财务分析工具模块 -->
-                    <div class="module-card">
-                        <div class="module-header" onclick="toggleModule('financial-analysis')">
-                            <div class="module-title">
-                                <i class="fas fa-calculator"></i>
-                                财务分析工具
-                            </div>
-                            <i class="fas fa-chevron-down text-sm" id="financial-analysis-chevron"></i>
-                        </div>
-                        <div class="module-content" id="financial-analysis-content">
-                            <div class="filter-bar">
-                                <div class="filter-btn active">偿债能力</div>
-                                <div class="filter-btn">盈利能力</div>
-                                <div class="filter-btn">运营能力</div>
-                                <div class="filter-btn">成长能力</div>
+                                <div class="item-desc">对新兴市场需求预测过于乐观，导致库存积压。改进市场调研方法和预测模型。</div>
+                                <div class="risk-level">
+                                    <span class="impact-tag">库存积压</span>
+                                    <span class="impact-tag">资金占用</span>
+                                </div>
+                                <div class="item-date">2023-09-15 · 市场部</div>
                             </div>
                             
-                            <div class="content-card">
-                                <div class="flex justify-between items-center mb-4">
-                                    <h3 class="font-medium">企业财务健康度分析</h3>
-                                    <span class="text-xs text-blue-400">最近更新: 2023-10-20</span>
+                            <div class="risk-item">
+                                <div class="item-title">
+                                    <i class="fas fa-user-clock"></i>
+                                    人力资源风险案例
+                                    <span class="item-tag green">低风险</span>
                                 </div>
-                                
-                                <div class="chart-container">
-                                    <svg width="320" height="180">
-                                        <!-- 坐标轴 -->
-                                        <line x1="40" y1="20" x2="40" y2="160" stroke="#94a3b8" stroke-width="2" />
-                                        <line x1="40" y1="160" x2="300" y2="160" stroke="#94a3b8" stroke-width="2" />
-                                        
-                                        <!-- 数据线 -->
-                                        <polyline points="60,140 100,60 140,120 180,40 220,100 260,80" 
-                                                 fill="none" stroke="#3b82f6" stroke-width="3" />
-                                        
-                                        <!-- 数据点 -->
-                                        <circle cx="60" cy="140" r="4" fill="#3b82f6" />
-                                        <circle cx="100" cy="60" r="4" fill="#3b82f6" />
-                                        <circle cx="140" cy="120" r="4" fill="#3b82f6" />
-                                        <circle cx="180" cy="40" r="4" fill="#3b82f6" />
-                                        <circle cx="220" cy="100" r="4" fill="#3b82f6" />
-                                        <circle cx="260" cy="80" r="4" fill="#3b82f6" />
-                                        
-                                        <!-- 标签 -->
-                                        <text x="60" y="175" fill="#94a3b8" font-size="12" text-anchor="middle">1月</text>
-                                        <text x="100" y="175" fill="#94a3b8" font-size="12" text-anchor="middle">2月</text>
-                                        <text x="140" y="175" fill="#94a3b8" font-size="12" text-anchor="middle">3月</text>
-                                        <text x="180" y="175" fill="#94a3b8" font-size="12" text-anchor="middle">4月</text>
-                                        <text x="220" y="175" fill="#94a3b8" font-size="12" text-anchor="middle">5月</text>
-                                        <text x="260" y="175" fill="#94a3b8" font-size="12" text-anchor="middle">6月</text>
-                                    </svg>
+                                <div class="item-desc">关键岗位员工突然离职，导致项目延期。建立关键岗位备份机制和知识管理体系。</div>
+                                <div class="risk-level">
+                                    <span class="impact-tag">项目延期</span>
+                                    <span class="impact-tag">知识流失</span>
                                 </div>
-                                
-                                <div class="flex justify-between mt-4 text-sm">
-                                    <div class="text-center">
-                                        <div class="text-[#94a3b8]">流动比率</div>
-                                        <div class="font-semibold">1.8</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-[#94a3b8]">资产负债率</div>
-                                        <div class="font-semibold">45%</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-[#94a3b8]">净利润率</div>
-                                        <div class="font-semibold">12.5%</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-[#94a3b8]">营收增长率</div>
-                                        <div class="font-semibold">8.2%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 分析框架图模块 -->
-                    <div class="module-card">
-                        <div class="module-header" onclick="toggleModule('framework')">
-                            <div class="module-title">
-                                <i class="fas fa-sitemap"></i>
-                                分析框架图
-                            </div>
-                            <i class="fas fa-chevron-down text-sm" id="framework-chevron"></i>
-                        </div>
-                        <div class="module-content" id="framework-content">
-                            <div class="content-card">
-                                <h3 class="font-medium mb-4 text-center">信贷风险评估框架</h3>
-                                
-                                <div class="framework-container">
-                                    <div class="framework-box">
-                                        <i class="fas fa-user-tie"></i>
-                                        <span>客户信息</span>
-                                    </div>
-                                    <div class="framework-box">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span>财务分析</span>
-                                    </div>
-                                    <div class="framework-box">
-                                        <i class="fas fa-industry"></i>
-                                        <span>行业分析</span>
-                                    </div>
-                                    <div class="framework-box">
-                                        <i class="fas fa-balance-scale"></i>
-                                        <span>综合评估</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-6">
-                                    <div class="policy-title mb-3">
-                                        <i class="fas fa-info-circle"></i>
-                                        框架说明
-                                    </div>
-                                    <div class="policy-desc">
-                                        本框架用于系统化评估信贷风险，包含四个核心维度：客户基本信息核实、财务状况分析、行业前景评估，最终形成综合风险评估报告。
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 申报流程及资料清单模块 -->
-                    <div class="module-card">
-                        <div class="module-header" onclick="toggleModule('application-process')">
-                            <div class="module-title">
-                                <i class="fas fa-clipboard-list"></i>
-                                申报流程及资料清单
-                            </div>
-                            <i class="fas fa-chevron-down text-sm" id="application-process-chevron"></i>
-                        </div>
-                        <div class="module-content" id="application-process-content">
-                            <div class="content-card">
-                                <h3 class="font-medium mb-4">企业信贷申请流程</h3>
-                                
-                                <ol class="process-list">
-                                    <li class="process-item">
-                                        <div class="process-title">资料准备与初审</div>
-                                        <div class="process-desc">收集企业基本资料，进行初步资格审核</div>
-                                    </li>
-                                    <li class="process-item">
-                                        <div class="process-title">财务分析</div>
-                                        <div class="process-desc">深入分析企业财务报表和经营数据</div>
-                                    </li>
-                                    <li class="process-item">
-                                        <div class="process-title">现场考察</div>
-                                        <div class="process-desc">实地考察企业经营状况和抵押物情况</div>
-                                    </li>
-                                    <li class="process-item">
-                                        <div class="process-title">风险评估</div>
-                                        <div class="process-desc">综合评估信贷风险，确定风险等级</div>
-                                    </li>
-                                    <li class="process-item">
-                                        <div class="process-title">审批决策</div>
-                                        <div class="process-desc">信贷委员会审议并做出最终决策</div>
-                                    </li>
-                                </ol>
-                            </div>
-                            
-                            <div class="content-card">
-                                <h3 class="font-medium mb-4">必备资料清单</h3>
-                                
-                                <ul class="docs-list">
-                                    <li class="docs-item">
-                                        <i class="fas fa-file-alt"></i>
-                                        <span>企业营业执照、组织机构代码证</span>
-                                    </li>
-                                    <li class="docs-item">
-                                        <i class="fas fa-file-invoice-dollar"></i>
-                                        <span>近三年财务报表及审计报告</span>
-                                    </li>
-                                    <li class="docs-item">
-                                        <i class="fas fa-file-contract"></i>
-                                        <span>近六个月银行对账单</span>
-                                    </li>
-                                    <li class="docs-item">
-                                        <i class="fas fa-building"></i>
-                                        <span>抵押物所有权证明文件</span>
-                                    </li>
-                                    <li class="docs-item">
-                                        <i class="fas fa-portrait"></i>
-                                        <span>法人代表身份证及签字样本</span>
-                                    </li>
-                                    <li class="docs-item">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        <span>贷款用途说明及相关合同</span>
-                                    </li>
-                                </ul>
+                                <div class="item-date">2023-09-10 · 人力资源部</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- 底部标签栏 -->
-            <div class="tab-bar">
-                <div class="tab-item" onclick="showPage('home-page')">
-                    <i class="fas fa-home"></i>
-                    <span>首页</span>
-                </div>
-                <div class="tab-item active">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>报表</span>
-                </div>
-                <div class="tab-item" onclick="showPage('profile-page')">
-                    <i class="fas fa-user"></i>
-                    <span>我的</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // 页面切换功能
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-            document.querySelectorAll('.tab-item').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            // 仅底部tab栏支持高亮
-            if (event && event.currentTarget && event.currentTarget.classList.contains('tab-item')) {
-                event.currentTarget.classList.add('active');
-            }
-            
-            // 滚动到顶部
-            document.querySelector('.app-content').scrollTop = 0;
-        }
-
-        // 模块展开/收缩功能
-        function toggleModule(moduleId) {
-            const content = document.getElementById(`${moduleId}-content`);
-            const chevron = document.getElementById(`${moduleId}-chevron`);
-            content.classList.toggle('expanded');
-            if (content.classList.contains('expanded')) {
-                chevron.classList.remove('fa-chevron-down');
-                chevron.classList.add('fa-chevron-up');
-            } else {
-                chevron.classList.remove('fa-chevron-up');
-                chevron.classList.add('fa-chevron-down');
-            }
-        }
-
-        // 初始化：展开所有模块
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleModule('credit-policy');
-            toggleModule('financial-analysis');
-            toggleModule('framework');
-            toggleModule('application-process');
-        });
-    </script>
-</body>
-</html>
