@@ -690,6 +690,61 @@
             color: white;
             box-shadow: 0 4px 10px rgba(94, 155, 255, 0.3);
         }
+
+        /* 图片样式 */
+        .framework-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .framework-image:hover {
+            transform: scale(1.02);
+        }
+        
+        /* 放大模态框样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .modal-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -1084,7 +1139,7 @@
                         
                         <div class="content-card">
                             <div class="chart-container">
-                                <div class="text-[#94a3b8]">业务框架图展示区</div>
+                                <img src="1.jpg" alt="授信分析框架图" class="framework-image" onclick="openImageModal(this)">
                             </div>
                         </div>
                         
@@ -1930,6 +1985,55 @@
 
         // 初始化：首页激活
         document.querySelector('.tab-bar').children[0].classList.add('active');
+
+        // 图片放大功能
+        function openImageModal(imgElement) {
+            // 创建模态框
+            let modalOverlay = document.createElement('div');
+            modalOverlay.className = 'modal-overlay';
+            modalOverlay.id = 'image-modal';
+            modalOverlay.innerHTML = `
+                <div class="modal-content">
+                    <span class="modal-close" onclick="closeImageModal()">&times;</span>
+                    <img src="${imgElement.src}" alt="${imgElement.alt}" class="modal-image">
+                </div>
+            `;
+            
+            document.body.appendChild(modalOverlay);
+            
+            // 显示模态框
+            setTimeout(() => {
+                modalOverlay.style.display = 'flex';
+            }, 10);
+            
+            // 添加ESC键关闭功能
+            document.addEventListener('keydown', handleEscapeKey);
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }
+            document.removeEventListener('keydown', handleEscapeKey);
+        }
+
+        function handleEscapeKey(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+            }
+        }
+
+        // 点击模态框背景关闭
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('image-modal');
+            if (modal && event.target === modal) {
+                closeImageModal();
+            }
+        });
     </script>
 </body>
 </html>
